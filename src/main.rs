@@ -9,6 +9,26 @@ use druid::{
 };
 use palette::{Hsl, Oklch, Srgb};
 
+struct Arrakis {
+    foreground: Oklch,
+    background: Oklch,
+    white: Oklch,
+    black: Oklch,
+    blue: Oklch,
+    cyan: Oklch,
+    green: Oklch,
+    yellow: Oklch,
+    red: Oklch,
+    magenta: Oklch,
+    bright_white: Oklch,
+    bright_black: Oklch,
+    bright_blue: Oklch,
+    bright_cyan: Oklch,
+    bright_green: Oklch,
+    bright_yellow: Oklch,
+    bright_red: Oklch,
+    bright_magenta: Oklch,
+}
 
 fn main() {
     let main_window =
