@@ -1,30 +1,25 @@
-use iced::{Element, Sandbox, Settings};
+use druid::{AppLauncher, Data, Env, Lens, LocalizedString, Widget, WindowDesc};
 
-fn main() -> Result<(), iced::Error> {
-    ShaiHulud::run(Settings::default())
+fn main() {
+    let main_window =
+        WindowDesc::new(build_root_widget()).title(LocalizedString::new("Shai-Hulud"));
+
+    let initial_state = State {
+        text: String::from("Hello, world!"),
+    };
+
+    AppLauncher::with_window(main_window)
+        .launch(initial_state)
+        .unwrap();
 }
 
-struct ShaiHulud {}
+#[derive(Clone, Data, Lens)]
+struct State {
+    text: String,
+}
 
-#[derive(Debug)]
-enum Message {}
+fn build_root_widget() -> impl Widget<State> {
+    use druid::widget::Label;
 
-impl iced::Sandbox for ShaiHulud {
-    type Message = Message;
-
-    fn new() -> Self {
-        ShaiHulud {}
-    }
-
-    fn title(&self) -> String {
-        String::from("Shai-Hulud")
-    }
-
-    fn update(&mut self, message: Self::Message) {
-        match message {}
-    }
-
-    fn view(&self) -> Element<'_, Self::Message> {
-        iced::widget::text("Hello, world!").into()
-    }
+    Label::new(|data: &State, _env: &Env| data.text.clone())
 }
