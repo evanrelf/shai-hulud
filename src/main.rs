@@ -39,7 +39,12 @@ fn build_root_widget() -> impl Widget<State> {
         let put = |s: &mut State, cs| s.color = Srgb::from_components(cs);
         Map::new(get, put)
     });
-    let color_label = Label::new(|data: &State, _env: &Env| format!("{:?}", data.color));
+    let color_label = Label::new(|data: &State, _env: &Env| {
+        format!(
+            "rgb({}, {}, {})",
+            data.color.red, data.color.green, data.color.blue
+        )
+    });
 
     Flex::column()
         .with_child(name_input)
