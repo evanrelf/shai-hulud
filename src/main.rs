@@ -1,11 +1,13 @@
-use druid::{AppLauncher, Data, Env, Lens, LocalizedString, Widget, WindowDesc};
+use druid::{Data, Env, Lens, LocalizedString, Widget};
 
 fn main() {
+    use druid::{AppLauncher, WindowDesc};
+
     let main_window =
         WindowDesc::new(build_root_widget()).title(LocalizedString::new("Shai-Hulud"));
 
     let initial_state = State {
-        text: String::from("Hello, world!"),
+        name: String::from("world"),
     };
 
     AppLauncher::with_window(main_window)
@@ -15,11 +17,18 @@ fn main() {
 
 #[derive(Clone, Data, Lens)]
 struct State {
-    text: String,
+    name: String,
 }
 
 fn build_root_widget() -> impl Widget<State> {
-    use druid::widget::Label;
+    use druid::widget::{CrossAxisAlignment, Flex, Label, TextBox, WidgetExt};
 
-    Label::new(|data: &State, _env: &Env| data.text.clone())
+    let text_box = TextBox::new().with_placeholder("Name").lens(State::name);
+
+    let label = Label::new(|data: &State, _env: &Env| format!("Hello, {}!", data.name));
+
+    Flex::column()
+        .with_child(text_box)
+        .with_child(label)
+        .cross_axis_alignment(CrossAxisAlignment::Fill)
 }
