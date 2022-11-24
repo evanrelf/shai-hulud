@@ -2,8 +2,10 @@ use druid::{
     lens,
     lens::Map,
     text::{Formatter, Selection, Validation, ValidationError},
-    widget::{CrossAxisAlignment, Flex, Label, TextBox, ValueTextBox, WidgetExt},
-    AppLauncher, Data, Env, Lens, LocalizedString, Widget, WindowDesc,
+    widget::{
+        CrossAxisAlignment, Flex, Label, Painter, SizedBox, TextBox, ValueTextBox, WidgetExt,
+    },
+    AppLauncher, Color, Data, Env, Lens, LocalizedString, RenderContext, Widget, WindowDesc,
 };
 use palette::{Hsl, Oklch, Srgb};
 
@@ -45,12 +47,23 @@ fn build_root_widget() -> impl Widget<State> {
             data.color.red, data.color.green, data.color.blue
         )
     });
+    let color_swatch = SizedBox::new(Painter::new(|ctx, data: &State, _env: &Env| {
+        let bounds = ctx.size().to_rect();
+        let color = Color::rgb(
+            f64::from(data.color.red),
+            f64::from(data.color.green),
+            f64::from(data.color.blue),
+        );
+        ctx.fill(bounds, &color);
+    }))
+    .expand();
 
     Flex::column()
         .with_child(name_input)
         .with_child(name_label)
         .with_child(color_input)
         .with_child(color_label)
+        .with_child(color_swatch)
         .cross_axis_alignment(CrossAxisAlignment::Fill)
 }
 
