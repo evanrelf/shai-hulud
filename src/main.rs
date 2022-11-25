@@ -76,7 +76,8 @@ fn build_root_widget() -> impl Widget<State> {
         );
         ctx.fill(bounds, &color);
     }))
-    .expand();
+    .width(50.0)
+    .height(50.0);
 
     Flex::column()
         .with_child(name_input)
